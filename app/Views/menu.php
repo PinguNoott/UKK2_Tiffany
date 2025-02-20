@@ -30,43 +30,7 @@
             <!-- Right Side Navbar -->
             <ul class="navbar-nav ms-auto d-flex align-items-center">
                 <!-- Profile Dropdown -->
-                <li class="nav-item dropdown">
-                    <?php
-                    $session = session();
-                    $id_user = $session->get('id_user'); // Ambil ID user dari session
-
-                    // Ambil data user dari database
-                    $db = \Config\Database::connect();
-                    $query = $db->table('user')->where('id_user', $id_user)->get();
-                    $user = $query->getRow(); // Ambil satu baris data user
-
-                    // Cek apakah user ditemukan
-                    if ($user) {
-                        $username = $user->username; // Ambil username dari database
-                        $foto = $user->foto; // Ambil foto dari database
-                    } else {
-                        $username = "Guest"; // Default jika tidak ada user
-                        $foto = null;
-                    }
-
-                    // Jika tidak ada foto atau foto kosong, gunakan gambar default
-                    $fotoProfil = !empty($foto) ? base_url('images/' . $foto) : base_url('images/user.jpg');
-                    ?>
-
-                    <a class="nav-link dropdown-toggle text-dark" href="#" id="profileDropdown" role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="<?= $fotoProfil ?>" class="rounded-circle" width="40" height="40">
-                        <span class="ms-2"><?= htmlspecialchars($username) ?></span>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="profileDropdown">
-                        <li><a class="dropdown-item" href="<?= base_url('home/profil/' . $id_user) ?>">
-                            <i class="fa fa-user me-2"></i> Edit Profile</a>
-                        </li>
-                        <li><a class="dropdown-item" href="<?= base_url('home/logout') ?>">
-                            <i class="fa fa-sign-out-alt me-2"></i> Logout</a>
-                        </li>
-                    </ul>
-                </li>
+               <!--  -->
             </ul>
         </div>
     </nav>
@@ -90,9 +54,9 @@
             <!-- Dashboard -->
             <li class="sidebar-item">
                 <a class="sidebar-link waves-effect waves-dark"
-                   href="<?= base_url('home/dashboard') ?>" aria-expanded="false">
+                   href="<?= base_url('home/diskon') ?>" aria-expanded="false">
                     <i class="me-3 fas fa-home"></i> 
-                    <span class="hide-menu">Dashboard</span>
+                    <span class="hide-menu">Diskon</span>
                 </a>
             </li>
 
@@ -107,13 +71,13 @@
 
           
             <!-- Setting -->
-            <li class="sidebar-item">
+            <!-- <li class="sidebar-item">
                 <a class="sidebar-link waves-effect waves-dark"
                    href="<?= base_url('home/setting') ?>" aria-expanded="false">
                     <i class="me-3 fas fa-cog"></i> 
                     <span class="hide-menu">Setting</span>
                 </a>
-            </li>
+            </li> -->
 
         </ul>
     </nav>
