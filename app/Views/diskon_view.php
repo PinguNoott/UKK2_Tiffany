@@ -96,13 +96,13 @@
     </style>
 </head>
 <body>
-    <h2>💙 Aplikasi Perhitungan Diskon 💙</h2>
+    <h2> Aplikasi Perhitungan Diskon </h2>
     <?php
     $harga = $diskon = $nilai_diskon = $total_harga = "";
     $error = "";
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $harga = isset($_POST["harga"]) ? floatval($_POST["harga"]) : 0;
+        $harga = isset($_POST["harga"]) ? floatval(str_replace('.', '', $_POST["harga"])) : 0;
         $diskon = isset($_POST["diskon"]) ? floatval($_POST["diskon"]) : 0;
 
         if ($harga <= 0) {
@@ -123,10 +123,10 @@
     <div class="form-container">
         <form action="" method="post">
             <label for="harga">Harga Barang:</label>
-            <input type="number" name="harga" id="harga" value="<?= htmlspecialchars($harga) ?>" required>
+            <input type="text" name="harga" id="harga" value="<?= $harga ? number_format($harga, 0, '', '.') : '' ?>" required oninput="formatRupiah(this)">
 
             <label for="diskon">Diskon (%):</label>
-            <input type="number" name="diskon" id="diskon" value="<?= htmlspecialchars($diskon) ?>" required>
+            <input type="number" step="0.01" name="diskon" id="diskon" value="<?= htmlspecialchars($diskon) ?>" required>
 
             <button type="submit">🔹 Hitung Diskon 🔹</button>
         </form>
@@ -134,11 +134,23 @@
 
     <?php if ($total_harga !== ""): ?>
         <div class="result">
-            <h3>✅ Hasil Perhitungan:</h3>
-            <p>💰 Harga Awal: <strong>Rp <?= number_format($harga, 2, ',', '.') ?></strong></p>
-            <p>🎀 Diskon: <strong><?= $diskon ?>% (Rp <?= number_format($nilai_diskon, 2, ',', '.') ?>)</strong></p>
-            <p><strong>💖 Total Harga Setelah Diskon: Rp <?= number_format($total_harga, 2, ',', '.') ?></strong></p>
+            <h3> Hasil Perhitungan:</h3>
+            <p>Harga Awal: <strong>Rp <?= number_format($harga, 0, '', '.') ?></strong></p>
+            <p> Diskon: <strong><?= $diskon ?>% (Rp <?= number_format($nilai_diskon, 0, '', '.') ?>)</strong></p>
+            <p><strong> Total Harga Setelah Diskon: Rp <?= number_format($total_harga, 0, '', '.') ?></strong></p>
         </div>
     <?php endif; ?>
+
+    <input type="tel" name="harga" id="harga" required oninput="formatRupiah(this)">
+
+<script>
+    function formatRupiah(input) {
+        let value = input.value.replace(/\D/g, ""); // Hapus semua karakter kecuali angka
+        let formatted = new Intl.NumberFormat("id-ID").format(value); // Format angka dengan titik
+        input.value = formatted; // Perbarui input dengan format yang benar
+    }
+</script>
+
 </body>
 </html>
+
